@@ -1,36 +1,32 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if(nums == null || nums.length == 0)
-            return result;
-        Map<Integer,Integer> map = new HashMap<>();
-        Arrays.sort(nums);
-        for(int i = 0 ;i<nums.length;i++)
-        {
-            map.put(nums[i],i);
+        if (nums.length < 3) {
+            return new ArrayList<>();
         }
-
-        Set<String> used = new HashSet<>();
-
-        for(int i = 0; i < nums.length;i++)
-        {
-            for(int j = i+1;j<nums.length;j++)
-            {
-                int currSum = nums[i]+nums[j];
-                if(map.containsKey(-1 * currSum))
-                {
-                    int k = map.get(-1 * currSum);
-                    if(!used.contains(nums[i] + ":" + nums[j] + ":" + nums[k]) && k>i && k>j)
-                    {
-                        result.add(Arrays.asList(nums[i],nums[j],nums[k]));
-                        used.add(nums[i] + ":" + nums[j] + ":" + nums[k]);
-                    }
+        Set<List<Integer>> result = new HashSet<>();
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length - 2; i++) {
+            int j = i + 1;
+            int k = nums.length - 1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                List<Integer> list = new ArrayList<>();
+                if (sum == 0) {
+                    list.add(nums[i]);
+                    list.add(nums[j]);
+                    list.add(nums[k]);
+                    j++;
+                    k--;
+                    result.add(list);
+                }
+                else if (sum > 0) {
+                    k--;
+                }
+                else {
+                    j++;
                 }
             }
-
         }
-        return result;
-         
-        
+        return new ArrayList<List<Integer>>(result);
     }
 }
